@@ -1,5 +1,5 @@
-/home/souradip/Projects/TestApp/app/obj/local/armeabi/objs/idxsearch/idxsearch.o: \
- /home/souradip/Projects/TestApp/app/jni/idxsearch.cpp \
+/home/souradip/Projects/TestApp/XapianAndroid/app/obj/local/armeabi/objs/idxsearch/idxsearch.o: \
+ /home/souradip/Projects/TestApp/XapianAndroid/app/jni/idxsearch.cpp \
  /home/souradip/.android-sdks/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/string.h \
  /home/souradip/.android-sdks/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/cdefs.h \
  /home/souradip/.android-sdks/android-ndk-r10e/platforms/android-8/arch-arm/usr/include/sys/cdefs_elf.h \

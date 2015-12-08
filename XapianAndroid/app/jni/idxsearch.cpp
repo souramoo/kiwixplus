@@ -37,7 +37,8 @@ const char* executeQuery(const char* dbLoc, const char* qu, bool partial) try {
     }
     return reply.c_str();
 }  catch (const Xapian::Error &e) {
-    return e.get_description().c_str();
+    //return e.get_description().c_str();
+    return "";
 }
 
 extern "C" {

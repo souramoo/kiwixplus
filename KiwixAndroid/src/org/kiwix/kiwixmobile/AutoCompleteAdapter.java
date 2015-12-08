@@ -70,15 +70,28 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                     String[] result = IndexedSearch.query(ZimContentProvider.getZimFile() + ".idx", qStr).split("\n");
                     //System.out.println(result.length);
 
-                    if (result.length < 1) {
+                    if (result.length < 2 && result[0].trim().equals("")) {
                         result = IndexedSearch.queryPartial(ZimContentProvider.getZimFile() + ".idx", qStr).split("\n");
                     }
 
-                    data.clear();
-                    for (int i = 0; i < result.length; i++) {
-                        String trim = result[i].substring(2);
-                        trim = trim.substring(0, trim.length() - 5);
-                        data.add(trim.replaceAll("\\_", " "));
+                    if (!result[0].trim().equals("")) {
+                        data.clear();
+                        for (int i = 0; i < result.length; i++) {
+                            String trim = result[i].substring(2);
+                            trim = trim.substring(0, trim.length() - 5);
+                            data.add(trim.replaceAll("\\_", " "));
+                        }
+                    } else {
+                        // fallback to legacy search method if index not found
+                        ZimContentProvider.searchSuggestions(prefix, 200);
+
+                        String suggestion;
+
+                        data.clear();
+                        while ((suggestion = ZimContentProvider.getNextSuggestion()) != null) {
+                            data.add(suggestion);
+                            //System.out.println(suggestion);
+                        }
                     }
                 } catch (Exception e) {
                 }
