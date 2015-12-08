@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/souradip/Projects/TestApp/app/build/native-libs/native-libs.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ec54882ccc88bf7af97086be0c642bfaf77afdee">
+        <dex dex="/home/souradip/Projects/TestApp/app/build/intermediates/pre-dexed/debug/native-libs-24b852728b8dc540eb9ee5381be9b2a39615cb8c.jar" />
+    </item>
+
+</items>
