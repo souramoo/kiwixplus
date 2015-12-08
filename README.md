@@ -1,4 +1,4 @@
-# kiwixplus
+# kiwix(plus my modifications)
 Experiment in adding indexed search to the android offline wikipedia reader kiwix
 
 ## Why?
