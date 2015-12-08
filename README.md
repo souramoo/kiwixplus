@@ -2,7 +2,7 @@
 Experiment in adding indexed search to the android offline wikipedia reader kiwix
 
 ## Why?
-It's very Hitchhiker's Guide to the Galaxy to have a pocket guide to life, the universe and everything in your pocket. Wikipedia allows us to do basically this, and the amazing kiwix project provides an awesome offline wikipedia reader for my android phone.
+It's very Hitchhiker's Guide to the Galaxy to have a guide to life, the universe and everything in your pocket. Wikipedia allows us to do basically this, and the amazing [kiwix](http://kiwix.org/) project provides an awesome offline wikipedia reader for my android phone.
 
 Its desktop version includes a comprehensive search feature, but sadly this is lacking in the offline version. Especially with huge quantities of information, a good search function is essential in finding what you want. So I've made an attempt at compiling xapian for android here and implemented a java interface for looking through kiwix index files.
 
