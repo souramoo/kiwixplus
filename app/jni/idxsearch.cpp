@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const char* executeQuery(const char* dbLoc, const char* qu) try {
+const char* executeQuery(const char* dbLoc, const char* qu, bool partial) try {
     Xapian::Database db(dbLoc);
 
     // Start an enquire session.
@@ -20,11 +20,16 @@ const char* executeQuery(const char* dbLoc, const char* qu) try {
     qp.set_stemmer(stemmer);
     qp.set_database(db);
     qp.set_stemming_strategy(Xapian::QueryParser::STEM_SOME);
-    Xapian::Query query = qp.parse_query(query_string);
+    Xapian::Query query;
 
-    // Find the top 10 results for the query.
+    if (partial)
+        query = qp.parse_query(query_string, Xapian::QueryParser::FLAG_PARTIAL);
+    else
+        query = qp.parse_query(query_string);
+
+    // Find the top 20 results for the query.
     enquire.set_query(query);
-    Xapian::MSet matches = enquire.get_mset(0, 10);
+    Xapian::MSet matches = enquire.get_mset(0, 20);
 
     for (Xapian::MSetIterator i = matches.begin(); i != matches.end(); ++i) {
         reply += i.get_document().get_data();
@@ -42,7 +47,16 @@ extern "C" {
     {
         const char* d = env->GetStringUTFChars( db , 0 ) ;
         const char* q = env->GetStringUTFChars( qu , 0 ) ;
-        const char* result = executeQuery(d, q);
+        const char* result = executeQuery(d, q, false);
+        return env->NewStringUTF(result);
+    }
+    JNIEXPORT jstring JNICALL
+    Java_com_moosd_kiwixplus_IndexedSearch_queryPartial(JNIEnv *env,
+                                                     jclass thiz, jstring db, jstring qu)
+    {
+        const char* d = env->GetStringUTFChars( db , 0 ) ;
+        const char* q = env->GetStringUTFChars( qu , 0 ) ;
+        const char* result = executeQuery(d, q, true);
         return env->NewStringUTF(result);
     }
 }
