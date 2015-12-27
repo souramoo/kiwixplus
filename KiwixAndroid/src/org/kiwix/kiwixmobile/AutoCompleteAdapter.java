@@ -66,6 +66,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                     }
                     String qStr = TextUtils.join(" ", rs);
                     //System.out.println("Q: "+qStr);
+                    //System.out.println(ZimContentProvider.getZimFile() + ".idx");
 
                     String[] result = IndexedSearch.query(ZimContentProvider.getZimFile() + ".idx", qStr).split("\n");
                     //System.out.println(result.length);
@@ -84,6 +85,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                     } else {
                         // fallback to legacy search method if index not found
                         ZimContentProvider.searchSuggestions(prefix, 200);
+                        //System.out.println("legacy");
 
                         String suggestion;
 

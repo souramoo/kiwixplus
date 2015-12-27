@@ -19,13 +19,13 @@ const char* executeQuery(const char* dbLoc, const char* qu, bool partial) try {
     Xapian::Stem stemmer("english");
     qp.set_stemmer(stemmer);
     qp.set_database(db);
-    qp.set_stemming_strategy(Xapian::QueryParser::STEM_SOME);
+    qp.set_stemming_strategy(Xapian::QueryParser::STEM_ALL);
     Xapian::Query query;
 
     if (partial)
-        query = qp.parse_query(query_string, Xapian::QueryParser::FLAG_PARTIAL);
+        query = qp.parse_query(query_string, Xapian::QueryParser::FLAG_PARTIAL | Xapian::QueryParser::FLAG_SPELLING_CORRECTION);
     else
-        query = qp.parse_query(query_string);
+        query = qp.parse_query(query_string, Xapian::QueryParser::FLAG_SPELLING_CORRECTION);
 
     // Find the top 20 results for the query.
     enquire.set_query(query);

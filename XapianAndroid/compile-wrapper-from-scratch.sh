@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ARCH=arm
-PLATFORM=android-8
+ARCH=arm64
+PLATFORM=android-21
 PREBUILD=$(pwd)/app/prebuild
 
 TOOLCHAIN_DIR=$(mktemp -d)
@@ -48,9 +48,9 @@ cd lib/uuid
 make
 
 # copy uuid to prebuild and to toolchain include and lib
-mkdir "$TOOLCHAIN_DIR/include/c++/4.8/uuid"
-cp uuid.h "$TOOLCHAIN_DIR/include/c++/4.8/uuid"
-cp libuuid.a "$TOOLCHAIN_DIR/lib/gcc/$PREFIX/4.8/"
+mkdir "$TOOLCHAIN_DIR/include/c++/4.9/uuid"
+cp uuid.h "$TOOLCHAIN_DIR/include/c++/4.9/uuid"
+cp libuuid.a "$TOOLCHAIN_DIR/lib/gcc/$PREFIX/4.9/"
 cp libuuid.a "$PREBUILD/libuuid.a"
 cd ../../..
 
@@ -75,4 +75,5 @@ ndk-build
 # clean up
 echo "cleanin up..."
 rm -rf "$TOOLCHAIN_DIR"
-rm -rf "$TEMP"
+#rm -rf "$TEMP"
+cd "$TEMP"

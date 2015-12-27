@@ -17,7 +17,7 @@ from subprocess import call, check_output
 # target platform to compile for
 # list of available toolchains in <NDK_PATH>/toolchains
 # arm-linux-androideabi, mipsel-linux-android, x86, llvm
-ALL_ARCHS = ['arm-linux-androideabi', 'mipsel-linux-android', 'x86']
+ALL_ARCHS = ['aarch64-linux-android']
 
 
 def find_package():
@@ -132,12 +132,14 @@ PARENT_PATH = os.path.dirname(CURRENT_PATH)
 # different names of folder path for accessing files
 ARCHS_FULL_NAMES = {
     'arm-linux-androideabi': 'arm-linux-androideabi',
+    'aarch64-linux-android': 'aarch64-linux-android',
     'mipsel-linux-android': 'mipsel-linux-android',
     'x86': 'i686-linux-android'}
 ARCHS_SHORT_NAMES = {
     'arm-linux-androideabi': 'armeabi',
     'mipsel-linux-android': 'mips',
-    'x86': 'x86'}
+    'x86': 'x86',
+    'aarch64-linux-android' : 'arm64-v8a'}
 
 # store host machine name
 UNAME = check_output(['uname', '-s']).strip()
@@ -152,7 +154,7 @@ CREATE_TOOLCHAIN, COMPILE_LIBLZMA, COMPILE_LIBICU, COMPILE_LIBZIM, \
 # compiler version to use
 # list of available toolchains in <NDK_PATH>/toolchains
 # 4.4.3, 4.6, 4.7, clang3.1, clang3.2
-COMPILER_VERSION = '4.8'
+COMPILER_VERSION = '4.9'
 
 # location of Android NDK
 NDK_PATH = os.environ.get('NDK_PATH',
@@ -167,7 +169,7 @@ SDK_PATH = os.environ.get('ANDROID_HOME',
 # Target Android EABI/version to compile for.
 # list of available platforms in <NDK_PATH>/platforms
 # android-14, android-3, android-4, android-5, android-8, android-9
-NDK_PLATFORM = os.environ.get('NDK_PLATFORM', 'android-14')
+NDK_PLATFORM = os.environ.get('NDK_PLATFORM', 'android-21')
 
 # will contain the different prepared toolchains for a specific build
 PLATFORM_PREFIX = os.environ.get('PLATFORM_PREFIX',
@@ -325,6 +327,7 @@ for arch in ARCHS:
         if (not os.path.exists(os.path.join(platform, arch_full, 'bin', 'gcc'))
             or not os.path.exists(os.path.join(platform,
                                                arch_full, 'libexec'))):
+            print(os.path.join(platform, arch_full, 'bin', 'gcc'))
             failed_on_step('The toolchain was not '
                            'copied properly and is not present.')
 
