@@ -6,6 +6,7 @@ PREBUILD=$(pwd)/app/prebuild
 
 TOOLCHAIN_DIR=$(mktemp -d)
 
+rm -rf "$PREBUILD"
 mkdir -p "$PREBUILD"
 
 # make toolchain
