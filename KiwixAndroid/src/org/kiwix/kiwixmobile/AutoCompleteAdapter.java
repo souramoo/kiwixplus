@@ -84,11 +84,16 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
 
                     if (!result[0].trim().equals("")) {
                         data.clear();
+                        System.out.println(result.length);
                         String ttl = ZimContentProvider.getPageUrlFromTitle(qStr);
-                        if(ttl != null)
+                        if (ttl != null)
                             data.add(ttl);
                         for (int i = 0; i < result.length; i++) {
-                            if(ttl != null && !result[i].equals(ttl)) {
+                            boolean ignore = false;
+                            if(ttl != null && result[i].equals(ttl)) {
+                                ignore = true;
+                            }
+                            if(!ignore) {
                                 data.add(result[i]);
                                 System.out.println(result[i]);
                             }
@@ -107,6 +112,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                         }
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
                 // Now assign the values and count to the FilterResults object
