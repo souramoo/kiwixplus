@@ -71,9 +71,9 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
             // highlight by word
             String[] highlight = prefix.split(" ");
             String toAdd = result.substring(0, result.length()-5).substring(2);
-            for (String todo : highlight) {
-                toAdd = toAdd.replaceAll("(?i)(" + Pattern.quote(todo)+")", "<b>$1</b>");
-            }
+            for (String todo : highlight)
+                if(todo.length() > 0)
+                    toAdd = toAdd.replaceAll("(?i)(" + Pattern.quote(todo)+")", "<b>$1</b>");
             // add to list
             data.add("A/"+toAdd+".html");
         }
@@ -116,15 +116,23 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                     if (!result[0].trim().equals("")) {
                         data.clear();
                         System.out.println(result.length);
-                        String ttl = ZimContentProvider.getPageUrlFromTitle(qStr);
-                        if (ttl != null)
+                        List<String> alreadyAdded = new ArrayList<String>();
+                        ZimContentProvider.searchSuggestions(qStr, 5);
+                        String ttl = ZimContentProvider.getPageUrlFromTitle(prefix);
+                        if (ttl != null) {
                             addToList(data, ttl, prefix);
-                        for (int i = 0; i < result.length; i++) {
-                            boolean ignore = false;
-                            if(ttl != null && result[i].equals(ttl)) {
-                                ignore = true;
+                            alreadyAdded.add(ttl);
+                        }
+                        for(int i = 0; i < 5; i++){
+                            String sug = ZimContentProvider.getNextSuggestion();
+                            if(sug != null && sug.length() > 0) {
+                                ttl = ZimContentProvider.getPageUrlFromTitle(sug);
+                                addToList(data, ttl, prefix);
+                                alreadyAdded.add(ttl);
                             }
-                            if(!ignore) {
+                        }
+                        for (int i = 0; i < result.length; i++) {
+                            if(!alreadyAdded.contains(result[i])) {
                                 addToList(data, result[i], prefix);
                                 System.out.println(result[i]);
                             }
