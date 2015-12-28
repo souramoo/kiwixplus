@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.moosd.kiwixplus.IndexedSearch;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -85,7 +87,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
             if (constraint != null) {
                 // A class that queries a web API, parses the data and returns an ArrayList<Style>
                 try {
-                    String prefix = constraint.toString();
+                    final String prefix = constraint.toString();
 
                     /*ZimContentProvider.searchSuggestions(prefix, 200);
 
@@ -103,6 +105,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                         rs[i] = (ps[i].length() > 1 ? Character.toUpperCase(ps[i].charAt(0)) + ps[i].substring(1) : ps[i].toUpperCase());
                     }
                     String qStr = TextUtils.join(" ", rs);
+                    qStr.replace("us ", "U.S.");
                     //System.out.println("Q: "+qStr);
                     //System.out.println(ZimContentProvider.getZimFile() + ".idx");
 
@@ -123,12 +126,14 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                             addToList(data, ttl, prefix);
                             alreadyAdded.add(ttl);
                         }
-                        for(int i = 0; i < 5; i++){
+                        for(int i = 0; i < 3; i++){
                             String sug = ZimContentProvider.getNextSuggestion();
                             if(sug != null && sug.length() > 0) {
                                 ttl = ZimContentProvider.getPageUrlFromTitle(sug);
-                                addToList(data, ttl, prefix);
-                                alreadyAdded.add(ttl);
+                                if(!alreadyAdded.contains(ttl)) {
+                                    addToList(data, ttl, prefix);
+                                    alreadyAdded.add(ttl);
+                                }
                             }
                         }
                         for (int i = 0; i < result.length; i++) {
