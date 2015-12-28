@@ -1,14 +1,20 @@
 package org.kiwix.kiwixmobile;
 
 import android.content.Context;
+import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
 import com.moosd.kiwixplus.IndexedSearch;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
@@ -29,10 +35,21 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
     }
 
     @Override
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        View row = super.getView(position, convertView, parent);
+
+        TextView tv = (TextView) row.findViewById(android.R.id.text1);
+        tv.setText(Html.fromHtml(getItem(position)));
+
+        return row;
+    }
+
+    @Override
     public String getItem(int index) {
         String trim = mData.get(index).substring(2);
         trim = trim.substring(0, trim.length() - 5);
-        return trim.replaceAll("\\_", " ");
+        return trim.replace("_", " ");
     }
 
 
@@ -46,6 +63,10 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
     }
 
     class KiwixFilter extends Filter {
+
+        private void addToList(List data, String result, String prefix) {
+            data.add(result.replaceAll("(?i)(" + Pattern.quote(prefix)+")", "<b>$1</b>").replace(".<b>h</b>tml", ".html"));
+        }
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -87,14 +108,14 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                         System.out.println(result.length);
                         String ttl = ZimContentProvider.getPageUrlFromTitle(qStr);
                         if (ttl != null)
-                            data.add(ttl);
+                            addToList(data, ttl, prefix);
                         for (int i = 0; i < result.length; i++) {
                             boolean ignore = false;
                             if(ttl != null && result[i].equals(ttl)) {
                                 ignore = true;
                             }
                             if(!ignore) {
-                                data.add(result[i]);
+                                addToList(data, result[i], prefix);
                                 System.out.println(result[i]);
                             }
                         }

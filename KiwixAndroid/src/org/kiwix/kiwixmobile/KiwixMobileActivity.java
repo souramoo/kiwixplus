@@ -882,7 +882,7 @@ public class KiwixMobileActivity extends AppCompatActivity
                 break;
             case REQUEST_FILE_SEARCH:
                 if (resultCode == RESULT_OK) {
-                    String title = data.getStringExtra(TAG_FILE_SEARCHED);
+                    String title = data.getStringExtra(TAG_FILE_SEARCHED).replace("<b>", "").replace("</b>", "");
 
                     String articleUrl = "";
 
