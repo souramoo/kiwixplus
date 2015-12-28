@@ -9,3 +9,6 @@ Its desktop version includes a comprehensive search feature, but sadly this is l
 The index itself gives a very nice knowledge search - for example, searching "Test For Typhus" gives the [Weill-Felix](https://en.wikipedia.org/wiki/Weil%E2%80%93Felix_test) test as the second hit, which is impressive. If you don't know, this is my [favourite geeky microbiology story](https://en.wikipedia.org/wiki/Proteus_OX19#History)
 
 Check out the releases to get started.
+
+## Screenshots
+![Screenshot of improved search results](/screens/screen1.png)
