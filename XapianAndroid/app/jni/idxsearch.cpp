@@ -23,9 +23,9 @@ const char* executeQuery(const char* dbLoc, const char* qu, bool partial) try {
     Xapian::Query query;
 
     if (partial)
-        query = qp.parse_query(query_string, Xapian::QueryParser::FLAG_PARTIAL | Xapian::QueryParser::FLAG_SPELLING_CORRECTION);
+        query = qp.parse_query(query_string, Xapian::QueryParser::FLAG_PARTIAL);
     else
-        query = qp.parse_query(query_string, Xapian::QueryParser::FLAG_SPELLING_CORRECTION);
+        query = qp.parse_query(query_string);
 
     // Find the top 20 results for the query.
     enquire.set_query(query);

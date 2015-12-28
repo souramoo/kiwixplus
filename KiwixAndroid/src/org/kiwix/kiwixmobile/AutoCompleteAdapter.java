@@ -84,9 +84,14 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
 
                     if (!result[0].trim().equals("")) {
                         data.clear();
+                        String ttl = ZimContentProvider.getPageUrlFromTitle(qStr);
+                        if(ttl != null)
+                            data.add(ttl);
                         for (int i = 0; i < result.length; i++) {
-                            data.add(result[i]);
-                            System.out.println(result[i]);
+                            if(ttl != null && !result[i].equals(ttl)) {
+                                data.add(result[i]);
+                                System.out.println(result[i]);
+                            }
                         }
                     } else {
                         // fallback to legacy search method if index not found
