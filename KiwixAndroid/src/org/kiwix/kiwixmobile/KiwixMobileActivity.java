@@ -393,7 +393,12 @@ public class KiwixMobileActivity extends AppCompatActivity
     }
 
     private KiwixWebView getCurrentWebView() {
-        return mDrawerAdapter.getItem(mCurrentWebViewIndex);
+        try {
+            return mDrawerAdapter.getItem(mCurrentWebViewIndex);
+        } catch(IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            return mDrawerAdapter.getItem(0);
+        }
     }
 
 
