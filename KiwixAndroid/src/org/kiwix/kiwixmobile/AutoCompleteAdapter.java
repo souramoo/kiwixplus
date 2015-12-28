@@ -47,9 +47,12 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
 
     @Override
     public String getItem(int index) {
-        String trim = mData.get(index).substring(2);
-        trim = trim.substring(0, trim.length() - 5);
-        return trim.replace("_", " ");
+        String a = mData.get(index);
+        if(a.endsWith(".html")) {
+            String trim = a.substring(2);
+            trim = trim.substring(0, trim.length() - 5);
+            return trim.replace("_", " ");
+        } else return a;
     }
 
 
@@ -65,7 +68,14 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
     class KiwixFilter extends Filter {
 
         private void addToList(List data, String result, String prefix) {
-            data.add(result.replaceAll("(?i)(" + Pattern.quote(prefix)+")", "<b>$1</b>").replace(".<b>h</b>tml", ".html"));
+            // highlight by word
+            String[] highlight = prefix.split(" ");
+            String toAdd = result.substring(0, result.length()-5).substring(2);
+            for (String todo : highlight) {
+                toAdd = toAdd.replaceAll("(?i)(" + Pattern.quote(todo)+")", "<b>$1</b>");
+            }
+            // add to list
+            data.add("A/"+toAdd+".html");
         }
 
         @Override
