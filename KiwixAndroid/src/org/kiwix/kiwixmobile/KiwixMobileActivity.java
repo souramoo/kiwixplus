@@ -883,7 +883,15 @@ public class KiwixMobileActivity extends AppCompatActivity
             case REQUEST_FILE_SEARCH:
                 if (resultCode == RESULT_OK) {
                     String title = data.getStringExtra(TAG_FILE_SEARCHED);
-                    String articleUrl = ZimContentProvider.getPageUrlFromTitle(title);
+
+                    String articleUrl = "";
+
+                    if(title.startsWith("A/")) {
+                        articleUrl = title;
+                    } else articleUrl = ZimContentProvider.getPageUrlFromTitle(title);
+
+                    System.out.println("Opening "+articleUrl + " (" + title + ")");
+
                     openArticle(articleUrl);
                 }
                 break;

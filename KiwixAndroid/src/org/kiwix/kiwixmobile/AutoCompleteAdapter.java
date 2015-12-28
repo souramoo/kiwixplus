@@ -30,6 +30,13 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
 
     @Override
     public String getItem(int index) {
+        String trim = mData.get(index).substring(2);
+        trim = trim.substring(0, trim.length() - 5);
+        return trim.replaceAll("\\_", " ");
+    }
+
+
+    public String getItemRaw(int index) {
         return mData.get(index);
     }
 
@@ -78,9 +85,8 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                     if (!result[0].trim().equals("")) {
                         data.clear();
                         for (int i = 0; i < result.length; i++) {
-                            String trim = result[i].substring(2);
-                            trim = trim.substring(0, trim.length() - 5);
-                            data.add(trim.replaceAll("\\_", " "));
+                            data.add(result[i]);
+                            System.out.println(result[i]);
                         }
                     } else {
                         // fallback to legacy search method if index not found
